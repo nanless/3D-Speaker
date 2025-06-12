@@ -7,6 +7,7 @@ import argparse
 import torch
 import torchaudio
 from kaldiio import WriteHelper
+from tqdm import tqdm
 
 from speakerlab.utils.builder import build
 from speakerlab.utils.utils import get_logger
@@ -18,6 +19,8 @@ parser.add_argument('--exp_dir', default='', type=str, help='Exp dir')
 parser.add_argument('--data', default='', type=str, help='Data dir')
 parser.add_argument('--use_gpu', action='store_true', help='Use gpu or not')
 parser.add_argument('--gpu', nargs='+', help='GPU id to use.')
+parser.add_argument('--num_epoch', type=int, default=None, help='Epoch number to load checkpoint from.')
+parser.add_argument('--test_dataset_name', type=str, default='', help='Test dataset name')
 
 
 def main():
@@ -28,7 +31,7 @@ def main():
     rank = int(os.environ['LOCAL_RANK'])
     world_size = int(os.environ['WORLD_SIZE'])
 
-    embedding_dir = os.path.join(args.exp_dir, 'embeddings')
+    embedding_dir = os.path.join(args.exp_dir, args.test_dataset_name, 'embeddings')
     os.makedirs(embedding_dir, exist_ok=True)
 
     logger = get_logger()
@@ -52,7 +55,8 @@ def main():
     config.checkpointer['args']['checkpoints_dir'] = os.path.join(args.exp_dir, 'models')
     config.checkpointer['args']['recoverables'] = {'embedding_model':embedding_model}
     checkpointer = build('checkpointer', config)
-    checkpointer.recover_if_possible(epoch=config.num_epoch, device=device)
+    epoch = args.num_epoch if args.num_epoch is not None else config.num_epoch
+    checkpointer.recover_if_possible(epoch=epoch, device=device)
 
     embedding_model.to(device)
     embedding_model.eval()
@@ -73,7 +77,15 @@ def main():
         logger.info('Start extracting embeddings.')
     with torch.no_grad():
         with WriteHelper(f'ark,scp:{emb_ark},{emb_scp}') as writer:
-            for k in local_k:
+            # Add progress bar for each rank
+            if rank == 0:
+                progress_bar = tqdm(local_k, desc=f'Rank {rank}/{world_size} extracting embeddings', 
+                                  unit='files', ncols=100, leave=True)
+            else:
+                progress_bar = tqdm(local_k, desc=f'Rank {rank}/{world_size} extracting embeddings', 
+                                  unit='files', ncols=100, leave=False, position=rank)
+            
+            for k in progress_bar:
                 wav_path = data[k]
                 wav, fs = torchaudio.load(wav_path)
                 assert fs == config.sample_rate, f"The sample rate of wav is {fs} and inconsistent with that of the pretrained model."
@@ -82,6 +94,9 @@ def main():
                 feat = feat.to(device)
                 emb = embedding_model(feat).detach().cpu().numpy()
                 writer(k, emb)
+                
+                # Update progress bar with current file info
+                progress_bar.set_postfix({'current_file': os.path.basename(wav_path)[:20]})
 
 if __name__ == "__main__":
     main()

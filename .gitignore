@@ -44,3 +44,6 @@ Makefile
 **/onnx_runtime/
 **/exp/
 **/__pycache__/
+
+logs
+*.log

@@ -9,6 +9,7 @@ import numpy as np
 from tqdm import tqdm
 from kaldiio import ReadHelper
 from sklearn.metrics.pairwise import cosine_similarity
+import matplotlib.pyplot as plt
 
 from speakerlab.utils.utils import get_logger
 from speakerlab.utils.score_metrics import (compute_pmiss_pfa_rbst, compute_eer, compute_c_norm)
@@ -21,6 +22,58 @@ parser.add_argument('--trials', nargs='+', help='Trial')
 parser.add_argument('--p_target', default=0.01, type=float, help='p_target in DCF')
 parser.add_argument('--c_miss', default=1, type=float, help='c_miss in DCF')
 parser.add_argument('--c_fa', default=1, type=float, help='c_fa in DCF')
+
+def plot_eer_curves(fnr, fpr, scores, thres, labels, save_path):
+    plt.figure(figsize=(15, 5))
+    
+    # Plot 1: FNR vs FPR
+    plt.subplot(131)
+    plt.plot(fpr, fnr, 'b-', label='ROC')
+    plt.plot([0, 1], [0, 1], 'r--', label='EER line')
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('False Negative Rate')
+    plt.title('FNR vs FPR')
+    plt.legend()
+    plt.grid(True)
+    
+    # Plot 2: Error Rates vs Scores
+    plt.subplot(132)
+    # Create threshold points for plotting
+    thresholds = np.sort(scores)
+    fnrs = []
+    fprs = []
+    for t in thresholds:
+        predictions = (scores >= t).astype(int)
+        fn = np.sum((predictions == 0) & (labels == 1))
+        fp = np.sum((predictions == 1) & (labels == 0))
+        tn = np.sum((predictions == 0) & (labels == 0))
+        tp = np.sum((predictions == 1) & (labels == 1))
+        fnrs.append(fn / (fn + tp) if (fn + tp) > 0 else 1.)
+        fprs.append(fp / (fp + tn) if (fp + tn) > 0 else 1.)
+    
+    plt.plot(thresholds, fnrs, 'b-', label='FNR')
+    plt.plot(thresholds, fprs, 'r-', label='FPR')
+    plt.axvline(x=thres, color='g', linestyle='--', label=f'EER Threshold')
+    plt.xlabel('Score Threshold')
+    plt.ylabel('Error Rate')
+    plt.title('Error Rates vs Score Threshold')
+    plt.legend()
+    plt.grid(True)
+    
+    # Plot 3: Score Distribution
+    plt.subplot(133)
+    plt.hist(scores[labels==1], bins=50, density=True, alpha=0.7, label='Target', color='g')
+    plt.hist(scores[labels==0], bins=50, density=True, alpha=0.7, label='Non-target', color='r')
+    plt.axvline(x=thres, color='b', linestyle='--', label=f'EER Threshold: {thres:.3f}')
+    plt.xlabel('Scores')
+    plt.ylabel('Density')
+    plt.title('Score Distribution')
+    plt.legend()
+    plt.grid(True)
+    
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
 
 def main():
     args = parser.parse_args(sys.argv[1:])
@@ -80,10 +133,15 @@ def main():
                                 p_target=args.p_target,
                                 c_miss=args.c_miss,
                                 c_fa=args.c_fa)
+                                
+        # Plot EER curves
+        plot_path = os.path.join(args.scores_dir, f'{trial_name}_eer_curves.png')
+        plot_eer_curves(fnr, fpr, scores, thres, labels, plot_path)
 
         # write the metrics
         logger.info("Results of {} is:".format(trial_name))
         logger.info("EER = {0:.4f}".format(100 * eer))
+        logger.info("EER_thres = {0:.4f}".format(thres))
         logger.info("minDCF (p_target:{} c_miss:{} c_fa:{}) = {:.4f}".format(
             args.p_target, args.c_miss, args.c_fa, min_dcf))
 
