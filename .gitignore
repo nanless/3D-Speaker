@@ -47,3 +47,7 @@ Makefile
 
 logs
 *.log
+
+*.pkl
+!docs/images/*.png
+*.png

@@ -1,0 +1,96 @@
+{
+  "summary": {
+    "total_files": 17,
+    "deleted_files": 17,
+    "skipped_files": 0,
+    "dry_run": true
+  },
+  "deleted_files": [
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0219/aishell1_BAC009S0219W0495.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0423/aishell1_BAC009S0423W0203.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0422/aishell1_BAC009S0422W0262.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0731/aishell1_BAC009S0731W0379.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0756/aishell1_BAC009S0756W0343.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0206/aishell1_BAC009S0206W0461.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0601/aishell1_BAC009S0601W0324.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0348/aishell1_BAC009S0348W0486.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0195/aishell1_BAC009S0195W0442.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0118/aishell1_BAC009S0118W0478.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0132/aishell1_BAC009S0132W0223.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0132/aishell1_BAC009S0132W0398.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0521/aishell1_BAC009S0521W0226.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0146/aishell1_BAC009S0146W0472.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0217/aishell1_BAC009S0217W0325.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0217/aishell1_BAC009S0217W0321.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    },
+    {
+      "path": "/root/group-shared/voiceprint/data/speech/speech_enhancement/audio_segments/merged_datasets_20250610_vad_segments/aishell1/aishell1_0048/aishell1_BAC009S0048W0490.wav",
+      "size": 44,
+      "reason": "File too small (<1024 bytes)"
+    }
+  ],
+  "skipped_files": []
+}
