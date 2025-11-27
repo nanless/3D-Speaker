@@ -51,3 +51,7 @@ logs
 *.pkl
 !docs/images/*.png
 *.png
+
+vendor/ten_vad
+*.onnx
+*.ckpt
